@@ -9,6 +9,7 @@ import (
 	"github.com/caspr-io/caspr-result/api/provisioning"
 	"github.com/caspr-io/mu-kit/kit"
 	"github.com/caspr-io/mu-kit/streaming"
+	"github.com/rs/zerolog/log"
 	"gopkg.in/yaml.v3"
 )
 
@@ -21,6 +22,8 @@ func ReadPayload(reader *bufio.Reader) Payload {
 	if err := decoder.Decode(payload); err != nil {
 		panic(err)
 	}
+
+	log.Logger.Info().Interface("payload", payload).Msg("Received payload to send")
 
 	return payload
 }
