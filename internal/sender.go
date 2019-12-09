@@ -29,7 +29,7 @@ func ReadPayload(reader io.Reader) Payload {
 
 func (p Payload) Send() {
 	stanConfig := &streaming.Config{}
-	if err := kit.ReadConfig("", stanConfig); err != nil {
+	if err := kit.ReadConfig("STREAMING", stanConfig); err != nil {
 		panic(err)
 	}
 
