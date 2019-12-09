@@ -15,8 +15,7 @@ FROM module_base as builder
 
 COPY . .
 
-RUN go build ./...
-
+RUN go build -o caspr-result ./main.go
 
 FROM alpine:3.10
 
@@ -27,6 +26,7 @@ ARG YQ_VERSION=2.4.1
 RUN curl -LO https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64 && \
   mv yq_linux_amd64 /usr/bin/yq && \
   chmod +x /usr/bin/yq
+
 
 COPY --from=builder /go/src/caspr-result/caspr-result /usr/bin
 
