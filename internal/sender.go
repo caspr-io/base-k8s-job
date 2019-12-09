@@ -1,10 +1,9 @@
 package internal
 
 import (
-	"bufio"
 	"bytes"
 	"context"
-	"os"
+	"io"
 
 	"github.com/caspr-io/caspr-result/api/provisioning"
 	"github.com/caspr-io/mu-kit/kit"
@@ -15,10 +14,10 @@ import (
 
 type Payload map[string]interface{}
 
-func ReadPayload(reader *bufio.Reader) Payload {
+func ReadPayload(reader io.Reader) Payload {
 	payload := make(Payload)
 
-	decoder := yaml.NewDecoder(os.Stdin)
+	decoder := yaml.NewDecoder(reader)
 	if err := decoder.Decode(payload); err != nil {
 		panic(err)
 	}
