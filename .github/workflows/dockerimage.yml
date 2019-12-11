@@ -11,6 +11,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Clone Gitlab.com caspr-io/root
-      run: git clone https://gitlab.com/caspr-io/root ..
+      run: git clone https://gitlab.com/caspr-io/root ../root
     - name: Make docker image
       run: make build
