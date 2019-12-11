@@ -11,7 +11,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Configure cred helper
-      run: git config credential.helper "/bin/bash $(pwd)/.github/credential-helper.sh"
+      run: git config --global credential.helper "/bin/bash $(pwd)/.github/credential-helper.sh"
+      env:
+        GITLAB_PAT: ${{secrets.GITLAB_PAT}} 
     - name: Clone Gitlab.com caspr-io/root
       run: git clone https://gitlab.com/caspr-io/root ../root
     - name: Make docker image
