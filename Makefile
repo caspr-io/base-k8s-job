@@ -1,6 +1,6 @@
 ROOTPROJECT ?= ../root
 CI_REGISTRY = docker.pkg.github.com
-CI_REGISTRY_IMAGE = caspr/base-provisioner/base-provisioner
+CI_REGISTRY_IMAGE = ${CI_REGISTRY}/caspr-io/base-provisioner/base-provisioner
 PROTOBUF_FILES=api/provisioning/provisioning_events.pb.go
 PROJECT_PACKAGE=github.com/caspr-io/caspr
 GENERATE_GROUPS=traefik:v1alpha1

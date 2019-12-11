@@ -3,18 +3,18 @@ name: Docker Image CI
 on: [push]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1     
-    - name: Ensure can write in repo
-      run: chmod ugo+w -R pkg 
-    - name: Clone Gitlab.com caspr-io/root
-      run: git clone https://gitlab-ci-token:${GITLAB_PAT}@gitlab.com/caspr-io/root ../root
-      env:
-        GITLAB_PAT: ${{secrets.GITLAB_PAT}}
-    - name: Make docker image
-      run: make build
+      - uses: actions/checkout@v1
+      - name: Ensure can write in repo
+        run: chmod ugo+w -R pkg
+      - name: Clone Gitlab.com caspr-io/root
+        run: git clone https://gitlab-ci-token:${GITLAB_PAT}@gitlab.com/caspr-io/root ../root
+        env:
+          GITLAB_PAT: ${{secrets.GITLAB_PAT}}
+      - name: Make docker image
+        run: make build
+      - name: Push docker image
+        run: make docker/push
