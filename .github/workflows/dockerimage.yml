@@ -9,7 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1      
+    - uses: actions/checkout@v1     
+    - name: Ensure can write in repo
+      run: chmod ugo+w -R pkg 
     - name: Clone Gitlab.com caspr-io/root
       run: git clone https://gitlab-ci-token:${GITLAB_PAT}@gitlab.com/caspr-io/root ../root
       env:
