@@ -1,6 +1,6 @@
 FROM golang:1.13-alpine as module_base
 
-WORKDIR /go/src/caspr-result
+WORKDIR /go/src/caspr
 
 # Force the go compiler to use modules
 ENV GO111MODULE=on
@@ -15,7 +15,7 @@ FROM module_base as builder
 
 COPY . .
 
-RUN go build -o caspr-result ./main.go
+RUN go build -o caspr ./main.go
 
 FROM alpine:3.10
 
@@ -28,7 +28,7 @@ RUN curl -LO https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_
   chmod +x /usr/bin/yq
 
 
-COPY --from=builder /go/src/caspr-result/caspr-result /usr/bin
+COPY --from=builder /go/src/caspr/caspr /usr/bin
 
 RUN addgroup -S caspr && \
   adduser -S caspr -G caspr --home /caspr

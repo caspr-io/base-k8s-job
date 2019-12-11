@@ -1,11 +1,11 @@
-package internal
+package result
 
 import (
 	"bytes"
 	"context"
 	"io"
 
-	"github.com/caspr-io/caspr-result/api/provisioning"
+	"github.com/caspr-io/caspr/api/provisioning"
 	"github.com/caspr-io/mu-kit/kit"
 	"github.com/caspr-io/mu-kit/streaming"
 	"github.com/rs/zerolog/log"
