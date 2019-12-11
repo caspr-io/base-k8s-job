@@ -9,12 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Configure cred helper
-      run: git config --global credential.helper "/bin/bash $(pwd)/.github/gitlab-cred-helper.sh"
-      env:
-        GITLAB_PAT: ${{secrets.GITLAB_PAT}} 
+    - uses: actions/checkout@v1      
     - name: Clone Gitlab.com caspr-io/root
-      run: git clone https://gitlab.com/caspr-io/root ../root
+      run: git clone https://gitlab-ci-token:${GITLAB_PAT}@gitlab.com/caspr-io/root ../root
+      env:
+        GITLAB_PAT: ${{secrets.GITLAB_PAT}}
     - name: Make docker image
       run: make build
