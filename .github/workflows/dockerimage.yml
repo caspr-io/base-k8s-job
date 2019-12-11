@@ -16,5 +16,11 @@ jobs:
           GITLAB_PAT: ${{secrets.GITLAB_PAT}}
       - name: Make docker image
         run: make build
+      - name: Docker Login
+        uses: azure/docker-login@v1
+        with:
+          login-server: docker.pkg.github.com
+          username: $GITHUB_ACTOR
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push docker image
         run: make docker/push
