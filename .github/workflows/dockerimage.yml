@@ -20,6 +20,6 @@ jobs:
         uses: azure/docker-login@v1
         with:
           username: hierynomus
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+          password: ${{ secrets.DOCKER_HUB_PAT }}
       - name: Push docker image
         run: make docker/push
