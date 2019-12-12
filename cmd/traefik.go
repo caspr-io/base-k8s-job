@@ -17,6 +17,9 @@ func init() {
 	traefikCmd.Flags().BoolVarP(&ingress.TLS, "tls", "t", false, "Whether the service should be exposed on TLS")
 	traefikCmd.Flags().StringToStringVarP(&ingress.Labels, "label", "l", map[string]string{}, "Labels to define on the K8s object(s)")
 	traefikCmd.Flags().StringVarP(&ingress.URL, "url", "u", "", "The (full) URL on which the root of the application will be served")
+	traefikCmd.MarkFlagRequired("service") //nolint:errcheck
+	traefikCmd.MarkFlagRequired("port")    //nolint:errcheck
+	traefikCmd.MarkFlagRequired("url")     //nolint:errcheck
 	ingressCmd.AddCommand(traefikCmd)
 }
 

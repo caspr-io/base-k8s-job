@@ -2,9 +2,12 @@ package traefik
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/caspr-io/caspr/pkg/apis/traefik/v1alpha1"
+	"github.com/caspr-io/caspr/pkg/client/clientset/versioned"
 	"github.com/caspr-io/mu-kit/kubernetes"
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -47,17 +50,44 @@ func (t *Traefik) CreateIngress(ingress *Ingress) error {
 		ingressRoute.Spec.TLS = nil
 	}
 
-	// u, err := url.Parse(replacedURL)
-	// if err != nil {
-	// 	return nil, errors.Wrapf(err, "Could not parse URL for %s", application.URL)
-	// }
+	u, err := url.Parse(ingress.URL)
+	if err != nil {
+		return errors.Wrapf(err, "Could not parse URL for %s", ingress.URL)
+	}
 
-	// host := u.Hostname()
-	// match := fmt.Sprintf("Host(`%s`)", host)
+	host := u.Hostname()
+	match := fmt.Sprintf("Host(`%s`)", host)
 
-	// if len(svc.PathPrefix) > 0 {
-	// 	match = fmt.Sprintf("%s && PathPrefix(`%s`)", match, svc.PathPrefix)
-	// }
+	if len(u.Path) > 0 {
+		match = fmt.Sprintf("%s && PathPrefix(`%s`)", match, u.Path)
+	}
+
+	//nolint:gofmt
+	ingressRoute.Spec.Routes = []v1alpha1.IngressRouteRuleSpec{
+		v1alpha1.IngressRouteRuleSpec{
+			Kind:  "Rule",
+			Match: match,
+			Services: []v1alpha1.IngressRouteRuleServiceSpec{
+				v1alpha1.IngressRouteRuleServiceSpec{
+					Name: ingress.Service,
+					Port: ingress.Port,
+				},
+			},
+		},
+	}
+
+	log.Logger.Info().Interface("ingress", ingressRoute).Msg("Creating ingress")
+
+	client, err := versioned.NewForConfig(t.k8s.Config)
+	if err != nil {
+		return err
+	}
+
+	_, err = client.TraefikV1alpha1().IngressRoutes(ingress.Namespace).Create(ingressRoute)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
