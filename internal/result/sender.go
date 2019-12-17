@@ -6,9 +6,9 @@ import (
 	"io"
 
 	"github.com/caspr-io/caspr/api/provisioning"
-	"github.com/caspr-io/mu-kit/kit"
-	"github.com/caspr-io/mu-kit/streaming"
+	provisioningapi "github.com/caspr-io/caspr/api/provisioning"
 	"github.com/rs/zerolog/log"
+	"google.golang.org/grpc"
 	"gopkg.in/yaml.v3"
 )
 
@@ -27,16 +27,15 @@ func ReadPayload(reader io.Reader) Payload {
 	return payload
 }
 
-func (p Payload) Send() {
-	stanConfig := &streaming.Config{}
-	if err := kit.ReadConfig("STREAMING", stanConfig); err != nil {
-		panic(err)
+func (p Payload) Send(service string, subscription string) {
+	grpcConn, err := grpc.Dial(service, grpc.WithInsecure())
+	if err != nil {
+		log.Panic().Err(err).
+			Str("url", service).
+			Msg("Cannot connect to provisioning-service")
 	}
 
-	river, err := streaming.NewRiver(stanConfig)
-	if err != nil {
-		panic(err)
-	}
+	provisioningServiceClient := provisioningapi.NewProvisioningServiceClient(grpcConn)
 
 	byteBuffer := &bytes.Buffer{}
 
@@ -47,8 +46,8 @@ func (p Payload) Send() {
 		panic(err)
 	}
 
-	msg := &provisioning.ProvisioningResult{Payload: byteBuffer.Bytes()}
-	if err := river.Publish(context.Background(), msg); err != nil {
+	msg := &provisioning.ProvisioningResult{Subscription: subscription, Payload: byteBuffer.Bytes()}
+	if _, err := provisioningServiceClient.Result(context.Background(), msg); err != nil {
 		panic(err)
 	}
 }

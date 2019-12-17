@@ -1,7 +1,7 @@
 ROOTPROJECT ?= ../root
 CI_REGISTRY = docker.io
-CI_REGISTRY_IMAGE = caspr/base-provisioner
-PROTOBUF_FILES=api/provisioning/provisioning_events.pb.go
+CI_REGISTRY_IMAGE = caspr/base-k8s-job
+PROTOBUF_FILES=api/provisioning/provisioning_services.pb.go
 PROJECT_PACKAGE=github.com/caspr-io/caspr
 GENERATE_GROUPS=traefik:v1alpha1
 

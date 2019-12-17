@@ -3,13 +3,14 @@ module github.com/caspr-io/caspr
 go 1.13
 
 require (
-	github.com/caspr-io/mu-kit v0.0.60
+	github.com/caspr-io/mu-kit v0.0.62
 	github.com/golang/protobuf v1.3.2
 	github.com/nats-io/stan.go v0.5.2 // indirect
 	github.com/pkg/errors v0.8.1
 	github.com/rs/zerolog v1.17.2
 	github.com/spf13/cobra v0.0.5
 	golang.org/x/sys v0.0.0-20191206220618-eeba5f6aabab // indirect
+	google.golang.org/grpc v1.22.0
 	gopkg.in/yaml.v2 v2.2.7 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20191120175047-4206685974f2
 	k8s.io/apimachinery v0.0.0-20191123233150-4c4803ed55e3

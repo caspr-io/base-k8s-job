@@ -29,8 +29,8 @@ github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+Ce
 github.com/bitly/go-hostpool v0.0.0-20171023180738-a3a6125de932/go.mod h1:NOuUCSz6Q9T7+igc/hlvDOUdtWKryOrtFyIVABv/p7k=
 github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869/go.mod h1:Ekp36dRnpXw/yCqJaO+ZrUyxD+3VXMFFr56k5XYrpB4=
 github.com/boltdb/bolt v1.3.1/go.mod h1:clJnj/oiGkjum5o1McbSZDSLxVThjynRyGBgiAx27Ps=
-github.com/caspr-io/mu-kit v0.0.60 h1:ag8Q1LakdijwoqFZ1Vj0WY82DoimNlunjmH8h57VxCc=
-github.com/caspr-io/mu-kit v0.0.60/go.mod h1:qn1GBOdJV9vJl7rxUsIpJC1gj7fdPN5a13k4HS+d4Dk=
+github.com/caspr-io/mu-kit v0.0.62 h1:bAn9Vc8vSGRnNkFZ/JYF9h5uEVxQUEeKnVbkLP5dI+k=
+github.com/caspr-io/mu-kit v0.0.62/go.mod h1:qn1GBOdJV9vJl7rxUsIpJC1gj7fdPN5a13k4HS+d4Dk=
 github.com/cenkalti/backoff/v3 v3.0.0/go.mod h1:cIeZDE3IrqwwJl6VUwCN6trj1oXrTS4rc0ij+ULvLYs=
 github.com/circonus-labs/circonus-gometrics v2.3.1+incompatible/go.mod h1:nmEj6Dob7S7YxXgwXpfOuvO54S+tGdZdw9fuRZt25Ag=
 github.com/circonus-labs/circonusllhist v0.1.3/go.mod h1:kMXHVDlOchFAehlya5ePtbp5jckzBHf4XRpQvBOLI+I=
