@@ -3,6 +3,7 @@ package result
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/caspr-io/caspr/api/provisioning"
@@ -27,8 +28,13 @@ func ReadPayload(reader io.Reader) Payload {
 	return payload
 }
 
-func (p Payload) Send(service string, subscription string) {
-	grpcConn, err := grpc.Dial(service, grpc.WithInsecure())
+func (p Payload) Send(service string, servicePort int32, subscription string) {
+	var address string = service
+	if servicePort > -1 {
+		address = fmt.Sprintf("%s:%d", address, servicePort)
+	}
+
+	grpcConn, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
 		log.Panic().Err(err).
 			Str("url", service).
