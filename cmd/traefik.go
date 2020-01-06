@@ -2,8 +2,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/caspr-io/caspr/internal/traefik"
 	"github.com/spf13/cobra"
 )
@@ -26,7 +24,16 @@ func init() {
 var traefikCmd = &cobra.Command{
 	Use:   "traefik",
 	Short: "Configure ingress using Traefik",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("%v", ingress)
+	RunE: func(cmd *cobra.Command, args []string) error {
+		t, err := traefik.NewTraefik()
+		if err != nil {
+			return err
+		}
+
+		if err := t.CreateIngress(ingress); err != nil {
+			return err
+		}
+
+		return nil
 	},
 }
