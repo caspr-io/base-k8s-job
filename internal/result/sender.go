@@ -1,15 +1,13 @@
 package result
 
 import (
-	"bytes"
 	"context"
-	"fmt"
 	"io"
 
 	"github.com/caspr-io/caspr/api/provisioning"
 	provisioningapi "github.com/caspr-io/caspr/api/provisioning"
+	"github.com/caspr-io/caspr/internal/utils"
 	"github.com/rs/zerolog/log"
-	"google.golang.org/grpc"
 	"gopkg.in/yaml.v3"
 )
 
@@ -29,30 +27,10 @@ func ReadPayload(reader io.Reader) Payload {
 }
 
 func (p Payload) Send(service string, servicePort int32, subscription string) {
-	var address string = service
-	if servicePort > -1 {
-		address = fmt.Sprintf("%s:%d", address, servicePort)
-	}
-
-	grpcConn, err := grpc.Dial(address, grpc.WithInsecure())
-	if err != nil {
-		log.Panic().Err(err).
-			Str("url", service).
-			Msg("Cannot connect to provisioning-service")
-	}
-
+	grpcConn := utils.DialGrpc(service, servicePort)
 	provisioningServiceClient := provisioningapi.NewProvisioningServiceClient(grpcConn)
 
-	byteBuffer := &bytes.Buffer{}
-
-	encoder := yaml.NewEncoder(byteBuffer)
-	defer encoder.Close()
-
-	if err := encoder.Encode(p); err != nil {
-		panic(err)
-	}
-
-	msg := &provisioning.ProvisioningResult{Subscription: subscription, Payload: byteBuffer.Bytes()}
+	msg := &provisioning.ProvisioningResult{Subscription: subscription, Payload: utils.ToYaml(p)}
 	if _, err := provisioningServiceClient.Result(context.Background(), msg); err != nil {
 		panic(err)
 	}

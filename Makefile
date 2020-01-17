@@ -1,7 +1,7 @@
 ROOTPROJECT ?= ../root
 CI_REGISTRY=docker.io
 CI_REGISTRY_IMAGE=caspr/base-k8s-job
-PROTOBUF_FILES=api/provisioning/provisioning_services.pb.go
+PROTOBUF_FILES=api/provisioning/provisioning_services.pb.go api/cluster/cluster_services.pb.go
 PROJECT_PACKAGE=github.com/caspr-io/caspr
 GENERATE_GROUPS=traefik:v1alpha1
 
