@@ -2,17 +2,17 @@ package creds
 
 import (
 	"context"
+
 	clusterapi "github.com/caspr-io/caspr/api/cluster"
 	"github.com/caspr-io/caspr/internal/utils"
 )
 
 type CredentialsFetcher struct {
-	Service     string
-	ServicePort int32
+	ServiceAddress string
 }
 
 func (cf *CredentialsFetcher) FetchCredentials(id string) ([]byte, error) {
-	grpcConn := utils.DialGrpc(cf.Service, cf.ServicePort)
+	grpcConn := utils.DialGrpc(cf.ServiceAddress)
 
 	client := clusterapi.NewClusterServiceClient(grpcConn)
 

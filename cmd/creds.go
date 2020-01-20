@@ -29,8 +29,7 @@ func buildCredsCmd() *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVarP(&fetcher.Service, "service", "s", "", "The service IP address to connect to.")
-	cmd.Flags().Int32VarP(&fetcher.ServicePort, "port", "p", -1, "The service port to connect to.")
+	cmd.Flags().StringVarP(&fetcher.ServiceAddress, "service", "s", "", "The service IP address (+port) to connect to.")
 	cmd.Flags().StringVarP(&clusterID, "cluster", "c", "", "The cluster id to fetch the credentials for")
 
 	return cmd
