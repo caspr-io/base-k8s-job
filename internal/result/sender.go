@@ -26,8 +26,8 @@ func ReadPayload(reader io.Reader) Payload {
 	return payload
 }
 
-func (p Payload) Send(service string, servicePort int32, subscription string) {
-	grpcConn := utils.DialGrpc(service, servicePort)
+func (p Payload) Send(service string, subscription string) {
+	grpcConn := utils.DialGrpc(service)
 	provisioningServiceClient := provisioningapi.NewProvisioningServiceClient(grpcConn)
 
 	msg := &provisioning.ProvisioningResult{Subscription: subscription, Payload: utils.ToYaml(p)}
