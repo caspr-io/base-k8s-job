@@ -5,6 +5,7 @@ import (
 	"github.com/caspr-io/caspr/internal/creds"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 func init() {
@@ -29,6 +30,7 @@ func buildCredsCmd() *cobra.Command {
 			return nil
 		},
 	}
+	cmd.SetOut(os.Stdout)
 	cmd.Flags().StringVarP(&fetcher.ServiceAddress, "service", "s", "", "The service IP address (+port) to connect to.")
 	cmd.Flags().StringVarP(&clusterID, "cluster", "c", "", "The cluster id to fetch the credentials for")
 
