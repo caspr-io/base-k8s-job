@@ -2,10 +2,11 @@
 package cmd
 
 import (
+	"os"
+
 	"github.com/caspr-io/caspr/internal/creds"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 func init() {
