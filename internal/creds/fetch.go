@@ -16,10 +16,10 @@ func (cf *CredentialsFetcher) FetchCredentials(id string) ([]byte, error) {
 
 	client := clusterapi.NewClusterServiceClient(grpcConn)
 
-	clusterCredentials, err := client.GetCredentials(context.Background(), &clusterapi.ClusterId{Id: id})
+	clusterDetails, err := client.GetClusterDetails(context.Background(), &clusterapi.ClusterId{Id: id})
 	if err != nil {
 		return nil, err
 	}
 
-	return clusterCredentials.GetCredentials(), nil
+	return clusterDetails.GetCredentials(), nil
 }
