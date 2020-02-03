@@ -1,4 +1,4 @@
-//nolint:gochecknoglobals,gochecknoinits
+//nolint:gochecknoinits
 package cmd
 
 import (
