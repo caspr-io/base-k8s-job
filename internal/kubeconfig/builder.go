@@ -3,6 +3,7 @@ package kubeconfig
 import (
 	"fmt"
 
+	clusterapi "github.com/caspr-io/caspr/api/cluster"
 	"github.com/caspr-io/caspr/internal/utils"
 )
 
@@ -27,8 +28,10 @@ func (b *Builder) Build(output string) error {
 	}
 
 	switch b.configType {
-	case "KUBERNETES":
+	case clusterapi.ClusterDetails_KUBERNETES.String():
 		return utils.WriteYaml(output, b.kubernetesFormat(contents))
+	case clusterapi.ClusterDetails_AWS.String():
+		return utils.WriteYaml(output, b.awsFormat(contents))
 	default:
 		return fmt.Errorf("unsupported config type '%s'", b.configType)
 	}
@@ -38,10 +41,29 @@ func (b *Builder) kubernetesFormat(contents map[string]interface{}) map[string]i
 	return b.kubeConfig(contents, b.certificateKeyUser(contents))
 }
 
+func (b *Builder) awsFormat(contents map[string]interface{}) map[string]interface{} {
+	return b.kubeConfig(contents, b.awsUser(contents))
+}
+
 func (b *Builder) certificateKeyUser(contents map[string]interface{}) map[string]interface{} {
 	return map[string]interface{}{
 		"client-certificate-data": contents["client-certificate"],
 		"client-key-data":         contents["client-key"],
+	}
+}
+
+func (b *Builder) awsUser(contents map[string]interface{}) map[string]interface{} {
+	return map[string]interface{}{
+		"exec": map[string]interface{}{
+			"apiVersion": "client.authentication.k8s.io/v1alpha1",
+			"args": []string{
+				"token",
+				"-i",
+				contents["cluster-name"].(string),
+			},
+			"command": "aws-iam-authenticator",
+			"env":     "null",
+		},
 	}
 }
 

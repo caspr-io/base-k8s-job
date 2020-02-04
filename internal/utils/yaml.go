@@ -34,7 +34,7 @@ func ReadYaml(file string) (map[string]interface{}, error) {
 	reader := bufio.NewReader(f)
 	decoder := yaml.NewDecoder(reader)
 
-	var yamlContents map[string]interface{}
+	yamlContents := map[string]interface{}{}
 
 	err = decoder.Decode(yamlContents)
 	if err != nil {
