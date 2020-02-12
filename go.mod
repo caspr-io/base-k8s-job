@@ -12,6 +12,7 @@ require (
 	golang.org/x/sys v0.0.0-20191206220618-eeba5f6aabab // indirect
 	google.golang.org/grpc v1.22.0
 	gopkg.in/yaml.v3 v3.0.0-20191120175047-4206685974f2
+	gotest.tools/v3 v3.0.0
 	k8s.io/apimachinery v0.0.0-20191123233150-4c4803ed55e3
 	k8s.io/client-go v0.0.0-20191114101336-8cba805ad12d
 )

@@ -28,9 +28,9 @@ func (b *Builder) Build(output string) error {
 	}
 
 	switch b.configType {
-	case clusterapi.ClusterDetails_KUBERNETES.String():
+	case clusterapi.ClusterGroup_KUBERNETES.String():
 		return utils.WriteYaml(output, b.kubernetesFormat(contents))
-	case clusterapi.ClusterDetails_AWS.String():
+	case clusterapi.ClusterGroup_AWS.String():
 		return utils.WriteYaml(output, b.awsFormat(contents))
 	default:
 		return fmt.Errorf("unsupported config type '%s'", b.configType)
@@ -59,10 +59,9 @@ func (b *Builder) awsUser(contents map[string]interface{}) map[string]interface{
 			"args": []string{
 				"token",
 				"-i",
-				contents["cluster-name"].(string),
+				PathOrPanic(contents, "cluster.cluster-name").(string),
 			},
 			"command": "aws-iam-authenticator",
-			"env":     "null",
 		},
 	}
 }
@@ -74,8 +73,8 @@ func (b *Builder) kubeConfig(contents map[string]interface{}, userData map[strin
 		"clusters": []map[string]interface{}{
 			map[string]interface{}{
 				"cluster": map[string]interface{}{
-					"certificate-authority-data": contents["certificate-authority"],
-					"server":                     contents["server"],
+					"certificate-authority-data": PathOrPanic(contents, "cluster.certificate-authority"),
+					"server":                     PathOrPanic(contents, "cluster.server"),
 				},
 				"name": "kube-job-target",
 			},
@@ -100,4 +99,13 @@ func (b *Builder) kubeConfig(contents map[string]interface{}, userData map[strin
 			},
 		},
 	}
+}
+
+func PathOrPanic(yaml interface{}, path string) interface{} {
+	v, err := utils.YamlPath(yaml, path)
+	if err != nil {
+		panic(err)
+	}
+
+	return v
 }

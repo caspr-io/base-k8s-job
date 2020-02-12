@@ -3,8 +3,10 @@ package utils
 import (
 	"bufio"
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/rs/zerolog/log"
 	"gopkg.in/yaml.v3"
@@ -48,4 +50,23 @@ func WriteYaml(file string, contents map[string]interface{}) error {
 	c := ToYaml(contents)
 
 	return ioutil.WriteFile(file, c, 0644)
+}
+
+func YamlPath(yaml interface{}, path string) (interface{}, error) {
+	components := strings.SplitN(path, ".", 2)
+
+	switch y := yaml.(type) {
+	case map[string]interface{}:
+		if v, ok := y[components[0]]; ok {
+			if len(components) > 1 {
+				return YamlPath(v, components[1])
+			}
+
+			return v, nil
+		}
+
+		return nil, fmt.Errorf("could not find key %s in YAML", components[0])
+	default:
+		return nil, fmt.Errorf("could not walk path '%s' as it is not a map %v", components[0], y)
+	}
 }
