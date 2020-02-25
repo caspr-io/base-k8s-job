@@ -47,8 +47,8 @@ func (b *Builder) awsFormat(contents map[string]interface{}) map[string]interfac
 
 func (b *Builder) certificateKeyUser(contents map[string]interface{}) map[string]interface{} {
 	return map[string]interface{}{
-		"client-certificate-data": contents["client-certificate"],
-		"client-key-data":         contents["client-key"],
+		"client-certificate-data": PathOrPanic(contents, "cluster.client-certificate"),
+		"client-key-data":         PathOrPanic(contents, "cluster.client-key"),
 	}
 }
 
