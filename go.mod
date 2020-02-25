@@ -11,7 +11,7 @@ require (
 	github.com/rs/zerolog v1.17.2
 	github.com/spf13/cobra v0.0.5
 	golang.org/x/sys v0.0.0-20191206220618-eeba5f6aabab // indirect
-	google.golang.org/grpc v1.22.0
+	google.golang.org/grpc v1.27.0
 	gopkg.in/yaml.v3 v3.0.0-20200121175148-a6ecf24a6d71
 	gotest.tools/v3 v3.0.2
 	k8s.io/apimachinery v0.0.0-20191123233150-4c4803ed55e3
