@@ -14,12 +14,16 @@ jobs:
         run: git clone https://gitlab-ci-token:${GITLAB_PAT}@gitlab.com/caspr-io/root ../root
         env:
           GITLAB_PAT: ${{secrets.GITLAB_PAT}}
+      - name: Clone Gitlab.com caspr-io/api
+        run: git clone https://gitlab-ci-token:${GITLAB_PAT}@gitlab.com/caspr-io/api ../api
+        env:
+          GITLAB_PAT: ${{secrets.GITLAB_PAT}}
       - name: Make docker image
         run: make build
       - name: Docker Login
         uses: azure/docker-login@v1
         with:
           username: hierynomus
-          password: ${{ secrets.DOCKER_HUB_PAT }}
+          password: ${{secrets.DOCKER_HUB_PAT}}
       - name: Push docker image
         run: make docker/push
