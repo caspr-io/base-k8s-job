@@ -28,6 +28,9 @@ func (b *Builder) Build(output string) error {
 	}
 
 	switch b.configType {
+	case clusterapi.ClusterGroup_LOCAL.String():
+		// LOCAL cluster type has no credentials
+		return nil
 	case clusterapi.ClusterGroup_KUBERNETES.String():
 		return utils.WriteYaml(output, b.kubernetesFormat(contents))
 	case clusterapi.ClusterGroup_AWS.String():
