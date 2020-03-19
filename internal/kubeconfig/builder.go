@@ -56,15 +56,25 @@ func (b *Builder) certificateKeyUser(contents map[string]interface{}) map[string
 }
 
 func (b *Builder) awsUser(contents map[string]interface{}) map[string]interface{} {
+	args := []string{
+		"token",
+		"-i",
+		PathOrPanic(contents, "cluster.cluster-name").(string),
+	}
+
+	clusterRoleArn, err := utils.YamlPath(contents, "cluster.role-arn")
+	if err == nil {
+		args = append(args,
+			"-r",
+			clusterRoleArn.(string),
+		)
+	}
+
 	return map[string]interface{}{
 		"exec": map[string]interface{}{
 			"apiVersion": "client.authentication.k8s.io/v1alpha1",
-			"args": []string{
-				"token",
-				"-i",
-				PathOrPanic(contents, "cluster.cluster-name").(string),
-			},
-			"command": "aws-iam-authenticator",
+			"args":       args,
+			"command":    "aws-iam-authenticator",
 		},
 	}
 }
