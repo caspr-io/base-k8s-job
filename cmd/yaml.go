@@ -10,6 +10,7 @@ import (
 
 func buildYamlCmd() *cobra.Command {
 	var file string
+	var prefix string
 
 	cmd := &cobra.Command{
 		Use:   "yaml",
@@ -26,6 +27,14 @@ func buildYamlCmd() *cobra.Command {
 				return err
 			}
 
+			if prefix != "" {
+				tmp := map[string]interface{}{
+					prefix: result,
+				}
+
+				result = tmp
+			}
+
 			bytes, err := yaml.Marshal(result)
 			if err != nil {
 				return err
@@ -38,6 +47,7 @@ func buildYamlCmd() *cobra.Command {
 	}
 
 	cmd.Flags().StringVarP(&file, "file", "f", "", "The YAML file to parse")
+	cmd.Flags().StringVarP(&prefix, "prefix", "p", "", "prefix the output with the given prefix")
 	cmd.MarkFlagRequired("file") //nolint:errcheck
 
 	return cmd
