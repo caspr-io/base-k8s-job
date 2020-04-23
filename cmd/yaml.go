@@ -2,6 +2,8 @@
 package cmd
 
 import (
+	"os"
+
 	"github.com/caspr-io/caspr/internal/utils"
 	"github.com/caspr-io/yamlpath"
 	"github.com/spf13/cobra"
@@ -40,12 +42,13 @@ func buildYamlCmd() *cobra.Command {
 				return err
 			}
 
-			println(string(bytes))
+			cmd.Println(string(bytes))
 
 			return nil
 		},
 	}
 
+	cmd.SetOut(os.Stdout)
 	cmd.Flags().StringVarP(&file, "file", "f", "", "The YAML file to parse")
 	cmd.Flags().StringVarP(&prefix, "prefix", "p", "", "prefix the output with the given prefix")
 	cmd.MarkFlagRequired("file") //nolint:errcheck
