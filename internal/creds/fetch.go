@@ -16,7 +16,7 @@ func (cf *CredentialsFetcher) FetchCredentials(id string) ([]byte, error) {
 
 	client := clusterapi.NewClusterServiceClient(grpcConn)
 
-	clusterDetails, err := client.GetClusterDetails(context.Background(), &clusterapi.ClusterId{Id: id})
+	clusterDetails, err := client.GetCluster(context.Background(), &clusterapi.GetClusterRequest{Id: id})
 	if err != nil {
 		return nil, err
 	}

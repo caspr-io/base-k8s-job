@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/caspr-io/caspr/cmd"
-	"github.com/caspr-io/mu-kit/kit"
+	mulog "github.com/caspr-io/mu-kit/log"
 )
 
 func main() {
-	kit.InitLogger("caspr")
+	mulog.Init("caspr", &mulog.Config{Level: "info"})
 	cmd.Execute()
 }
